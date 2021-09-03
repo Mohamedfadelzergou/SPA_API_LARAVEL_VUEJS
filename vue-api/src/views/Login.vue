@@ -13,6 +13,9 @@
                   <div class="form-group">
                       <label for="password">Password</label>
                       <input type="password" class="form-control" v-model="password" name="password" id="password">
+                    <div class="text-danger" v-if="error">
+                        {{error}}
+                    </div>
                   </div>
                   <div class="form-group">
                       <button type="submit" class="btn btn-primary btn-block" @click.prevent="perforlogin">Login</button>
@@ -24,19 +27,31 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name:'Login',
     data(){
         return {
             'email':'',
-            'password':''
+            'password':'',
+            'error':''
         }
     },
     methods:{
         perforlogin(){
-            console.log('Performance Login');
-            console.log('Email:'+this.email);
-            console.log('Password'+this.password);
+            axios.post('http://localhost:8000/api/auth/login',{
+                email:this.email,
+                password:this.password,
+            }).then(res=>{
+                console.log(res.data);
+                localStorage.setItem("token", res.data.access_token)
+                localStorage.setItem("user", res.data.user)
+                this.$router.push('/profile')
+
+            }).catch(err =>{
+                console.log(err.message);
+                this.error=err.message
+            })
             // this.$router.push('/profile');
         }
     }
