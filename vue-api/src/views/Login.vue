@@ -5,17 +5,17 @@
               <h2 class="display-4 text-center mt-5">
                   Login Form
               </h2>
-              <form action="" method="post">
+              <form >
                   <div class="form-group">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" name="email" id="email">
+                      <input type="email" class="form-control" v-model="email" name="email" id="email">
                   </div>
                   <div class="form-group">
                       <label for="password">Password</label>
-                      <input type="password" class="form-control" name="password" id="password">
+                      <input type="password" class="form-control" v-model="password" name="password" id="password">
                   </div>
                   <div class="form-group">
-                      <button type="submit" class="btn btn-primary btn-block">Login</button>
+                      <button type="submit" class="btn btn-primary btn-block" @click.prevent="perforlogin">Login</button>
                   </div>
               </form>
           </div>
@@ -25,7 +25,21 @@
 
 <script>
 export default {
-
+    name:'Login',
+    data(){
+        return {
+            'email':'',
+            'password':''
+        }
+    },
+    methods:{
+        perforlogin(){
+            console.log('Performance Login');
+            console.log('Email:'+this.email);
+            console.log('Password'+this.password);
+            // this.$router.push('/profile');
+        }
+    }
 }
 </script>
 
