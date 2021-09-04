@@ -52,7 +52,6 @@ export default {
                 console.log(err.message);
                 this.error=err.message
             })
-            // this.$router.push('/profile');
         }
     }
 }

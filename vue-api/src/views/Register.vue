@@ -6,7 +6,7 @@
                   Register Form
               </h2>
               
-              <form action="" method="post">
+              <form>
                   <div class="form-group">
                       <label for="name">Name</label>
                       <input type="text" class="form-control" v-model="name" id="name">
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name:'Register',
     data(){
@@ -40,11 +41,20 @@ export default {
     },
     methods:{
         perforregister(){
-            console.log('Performance Register');
-            console.log('Name:'+this.name);
-            console.log('Email:'+this.email);
-            console.log('Password'+this.password);
-            // this.$router.push('/profile');
+            axios.post('http://localhost:8000/api/auth/register',{
+                name:this.name,
+                email:this.email,
+                password:this.password,
+            }).then(res=>{
+                console.log(res.data);
+                localStorage.setItem("token", res.data.access_token)
+                localStorage.setItem("user", res.data.user)
+                this.$router.push('/profile')
+
+            }).catch(err =>{
+                console.log(err.message);
+                this.error=err.message
+            })
         }
     }
 }
