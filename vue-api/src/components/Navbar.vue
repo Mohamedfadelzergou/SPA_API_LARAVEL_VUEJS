@@ -33,3 +33,35 @@
         </div>
     </nav>
 </template>
+<script>
+
+export default {
+    data(){
+        return{
+            token:null,
+        }
+    },
+    created(){
+        this.checkUserStatus();
+    },
+    computed:{
+        loggedIn(){
+            return this.$store.getters.get_loggedIn;
+        }
+    }
+    ,methods:{
+        checkUserStatus(){
+            if(localStorage.getItem("token")!=null){
+                this.token=localStorage.getItem("token")
+            }
+        },
+        performLogout(){
+            localStorage.removeItem("token")
+            localStorage.removeItem("user")
+            this.token=null
+            this.$router.push('/login')
+        }
+    }
+
+}
+</script>
