@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     loggedIn:false,
     user:null,
-    token:null
+    token:null,
   },
   mutations: {
     SET_State(state,payload){
@@ -56,7 +56,19 @@ export default new Vuex.Store({
               })
         })
   
-        }
+    },
+    performLogoutAction({commit,state}){
+      return new Promise((resolve,reject)=>{
+        axios.post('http://localhost:8000/api/auth/logout',{token:state.token}).then(res=>{
+                  commit('SET_State',null)
+                  commit('SET_User',null)
+                  commit('SET_LoggedIn',false)
+                  resolve(res)
+              }).catch(err =>{
+                reject(err)
+              })
+        })
+    }
   },
   getters: {
     get_loggedIn(state){
