@@ -27,30 +27,29 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
     name:'Login',
     data(){
         return {
             'email':'',
             'password':'',
-            'error':''
+            'error':'',
+            isLouding:false
         }
     },
     methods:{
         perforlogin(){
-            axios.post('http://localhost:8000/api/auth/login',{
+            this.isLouding=true
+            this.$store.dispatch('perforloginAction',{
                 email:this.email,
                 password:this.password,
             }).then(res=>{
-                console.log(res.data);
-                localStorage.setItem("token", res.data.access_token)
-                localStorage.setItem("user", res.data.user)
+                res
+                this.isLouding=false
                 this.$router.push('/profile')
-
-            }).catch(err =>{
-                console.log(err.message);
-                this.error=err.message
+            }).catch(err=>{
+                this.error="there was diring error login process"
+                console.log(err.message)
             })
         }
     }
