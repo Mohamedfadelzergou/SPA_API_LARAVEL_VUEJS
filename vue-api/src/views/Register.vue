@@ -18,42 +18,46 @@
                   <div class="form-group">
                       <label for="password">Password</label>
                       <input type="password" class="form-control" v-model="password" id="password">
+                      <div class="text-danger" v-if="error">
+                        {{error}}
+                      </div>
                   </div>
                   <div class="form-group">
                       <button type="submit" class="btn btn-primary btn-block" @click.prevent="perforregister">Register</button>
                   </div>
               </form>
+              <circle-spin v-show="isLouding"></circle-spin>
           </div>
       </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
 export default {
     name:'Register',
     data(){
         return{
             'name':'',
             'email':'',
-            'password':''
+            'password':'',
+            'error':'',
+            isLouding:false
         }
     },
     methods:{
         perforregister(){
-            axios.post('http://localhost:8000/api/auth/register',{
+            this.isLouding=true
+            this.$store.dispatch('perforRegisterAction',{
                 name:this.name,
                 email:this.email,
                 password:this.password,
             }).then(res=>{
-                console.log(res.data);
-                localStorage.setItem("token", res.data.access_token)
-                localStorage.setItem("user", res.data.user)
+                res
+                this.isLouding=false
                 this.$router.push('/profile')
-
-            }).catch(err =>{
-                console.log(err.message);
-                this.error=err.message
+            }).catch(err=>{
+                this.error="there was diring error register process"
+                console.log(err.message)
             })
         }
     }

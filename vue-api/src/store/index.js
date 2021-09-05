@@ -39,7 +39,24 @@ export default new Vuex.Store({
             })
       })
 
-      }
+      },
+    perforRegisterAction({commit},payload){
+      return new Promise((resolve,reject)=>{
+        axios.post('http://localhost:8000/api/auth/register',{
+                name:payload.name,
+                email:payload.email,
+                password:payload.password,
+            }).then(res=>{
+                  commit('SET_State',res.data.access_token)
+                  commit('SET_User',res.data.user)
+                  commit('SET_LoggedIn',true)
+                  resolve(res)
+              }).catch(err =>{
+                reject(err)
+              })
+        })
+  
+        }
   },
   getters: {
     get_loggedIn(state){
