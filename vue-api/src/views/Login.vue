@@ -21,6 +21,7 @@
                       <button type="submit" class="btn btn-primary btn-block" @click.prevent="perforlogin">Login</button>
                   </div>
               </form>
+              <circle-spin v-if="isLouding"></circle-spin>
           </div>
       </div>
   </div>
