@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
-
+import VuexPersistence from 'vuex-persist';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -21,7 +21,8 @@ export default new Vuex.Store({
       state.loggedIn=payload
     }
   },
-  actions: {
+  plugins: [new VuexPersistence().plugin]
+  ,actions: {
     perforloginAction({commit},payload){
       return new Promise((resolve,reject)=>{
         axios.post('http://localhost:8000/api/auth/login',{
